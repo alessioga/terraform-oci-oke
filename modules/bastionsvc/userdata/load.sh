@@ -1,0 +1,70 @@
+#!/bin/bash
+images=(
+  alpine
+  alpine/k8s:1.22.13
+  alpine/k8s:1.24.8
+  busybox:1.33.1
+  docker.io/alpine/k8s:1.24.8
+  docker.io/bitnami/postgres-exporter:0.11.0-debian-11-r6
+  docker.io/bitnami/postgresql:14.5.0-debian-11-r3
+  docker.io/bitnami/postgresql:15.2.0-debian-11-r2
+  docker.io/emberstack/kubernetes-reflector:7.0.151
+  docker.io/istio/install-cni:1.15.3
+  docker.io/istio/operator:1.17.1
+  docker.io/istio/pilot:1.15.3
+  docker.io/istio/proxyv2:1.15.3
+  docker.io/kindest/kindnetd:v20220726-ed811e41
+  docker.io/kindest/local-path-provisioner:v0.0.22-kind.0
+  docker.io/kong/kubernetes-ingress-controller:2.9
+  docker.io/library/alpine:latest
+  docker.io/library/busybox:1.33.1
+  docker.io/library/kong:3.2
+  docker.io/library/postgres:13
+  docker.io/minio/console:v0.22.5
+  docker.io/minio/operator:v4.5.8
+  docker.io/stakater/reloader:v0.0.126
+  docker.io/trinodb/trino:414
+  emberstack/kubernetes-reflector:7.0.151
+  ghcr.io/external-secrets/external-secrets:v0.7.2
+  ghcr.io/fluxcd/helm-controller:v0.31.2
+  ghcr.io/fluxcd/kustomize-controller:v0.35.1
+  ghcr.io/fluxcd/notification-controller:v0.33.0
+  ghcr.io/fluxcd/source-controller:v0.36.1
+  ghcr.io/googlecloudplatform/spark-operator:v1beta2-1.3.7-3.1.1
+  k8s.gcr.io/coredns/coredns:v1.8.6
+  k8s.gcr.io/etcd:3.5.3-0
+  k8s.gcr.io/kube-apiserver:v1.24.4
+  k8s.gcr.io/kube-controller-manager:v1.24.4
+  k8s.gcr.io/kube-proxy:v1.24.4
+  k8s.gcr.io/kube-scheduler:v1.24.4
+  kong:3.2
+  kong/kubernetes-ingress-controller:2.9
+  library/postgres:13
+  minio/console:v0.22.5
+  minio/operator:v4.5.8
+  neom.jfrog.io/core/core-platform-gateway:v0.9.0-394
+  neom.jfrog.io/core/k8s-manager:v0.1.4-99
+  neom.jfrog.io/core/pg-api:v0.1.0-75
+  neom.jfrog.io/core/platform-storage:v0.4.0-87
+  neom.jfrog.io/platform-containers/keycloak:20.0.5
+  quay.io/apicurio/apicurio-registry-kafkasql:2.3.1.Final
+  quay.io/jetstack/cert-manager-cainjector:v1.10.0
+  quay.io/jetstack/cert-manager-controller:v1.10.0
+  quay.io/jetstack/cert-manager-webhook:v1.10.0
+  quay.io/minio/minio:RELEASE.2023-02-17T17-52-43Z
+  quay.io/prometheus/prometheus:latest
+  quay.io/strimzi/kafka:0.32.0-kafka-3.3.1
+  quay.io/strimzi/kafka-bridge:0.22.3
+  quay.io/strimzi/operator:0.32.0
+  quay.io/titansoft/imagepullsecret-patcher:v0.14
+  stakater/reloader:v0.0.126
+  trinodb/trino:414
+)
+
+for image in "${images[@]}"; do
+    docker pull "$image"
+done
+
+for image in "${images[@]}"; do
+    kind load docker-image "$image" --name=flux-e2e
+done

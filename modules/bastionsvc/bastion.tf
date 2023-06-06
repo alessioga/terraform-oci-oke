@@ -8,3 +8,26 @@ resource "oci_bastion_bastion" "bastion" {
   client_cidr_block_allow_list = var.bastion_service_access
   name                         = var.bastion_service_name
 }
+
+
+resource "null_resource" "init" {
+  triggers = {
+    always_run = timestamp()
+  }
+
+  provisioner "file" {
+    source      = "userdata/"
+    destination = "/tmp"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "/tmp/userdata/linux.sh",
+    ]
+  }
+  connection {
+    type        = "ssh"
+    user        = "opc"
+    host        = module.oke-cluster.output.bastion_public_ip
+    private_key = file("~/.ssh/id_rsa")
+  }
+}
