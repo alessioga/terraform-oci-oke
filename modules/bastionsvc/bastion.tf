@@ -27,7 +27,7 @@ resource "null_resource" "init" {
   connection {
     type        = "ssh"
     user        = "opc"
-    host        = module.oke-cluster.output.bastion_public_ip
+    host        = local.bastion_public_ip
     private_key = file("~/.ssh/id_rsa")
   }
 }
